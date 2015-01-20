@@ -43,12 +43,16 @@ var cucumber = function(options) {
         argv.push.apply(argv, features);
         var stream = this
         Cucumber.Cli(argv).run(function(succeeded) {
+            var code = succeeded ? 0 : 1;
+
             if (succeeded) {
                 callback()
                 stream.emit('end')
             } else {
                 callback(new Error("Cucumber tests failed!"))
             }
+
+            process.exit(code);
         })
     };
 
